@@ -63,7 +63,7 @@ Example playbook
     ansible_python_interpreter: '/usr/bin/python2.7'
 
   roles:
-    - role: ca_keys
+    - role: libre_ops.ca_keys
       vars:
         cert_organisation: Example Inc.
         cert_unit: Keys Department
