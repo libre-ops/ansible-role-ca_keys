@@ -1,0 +1,50 @@
+---
+
+keys_path: ../generated_keys
+
+cert_ca_name: CA Root
+cert_organisation: Libre Ops
+cert_unit: R&D
+cert_country: GB
+cert_state: London
+cert_location: London
+
+create_java_keystores: true
+cert_pass: changeme
+cert_valid_days: 3650
+
+ca_subject:
+  - "/CN={{ cert_ca_name }}"
+  - "/O={{ cert_organisation }}"
+  - "/OU={{ cert_unit }}"
+  - "/C={{ cert_country }}"
+  - "/ST={{ cert_state }}"
+  - "/L={{ cert_location }}"
+
+create_keys:
+  - filename: server
+    subject:
+      - "/CN=server.example.com"
+      - "/O={{ cert_organisation }}"
+      - "/OU={{ cert_unit }}"
+      - "/C={{ cert_country }}"
+      - "/ST={{ cert_state }}"
+      - "/L={{ cert_location }}"
+
+  - filename: client1
+    subject:
+      - "/CN=client1.example.com"
+      - "/O={{ cert_organisation }}"
+      - "/OU={{ cert_unit }}"
+      - "/C={{ cert_country }}"
+      - "/ST={{ cert_state }}"
+      - "/L={{ cert_location }}"
+
+  - filename: client2
+    subject:
+      - "/CN=client2.example.com"
+      - "/O={{ cert_organisation }}"
+      - "/OU={{ cert_unit }}"
+      - "/C={{ cert_country }}"
+      - "/ST={{ cert_state }}"
+      - "/L={{ cert_location }}"

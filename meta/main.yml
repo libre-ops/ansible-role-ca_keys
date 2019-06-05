@@ -1,0 +1,31 @@
+galaxy_info:
+  role_name: ca_keys
+  author: Matt-Yorkley
+  description: Generate private CA keys and signed certificates
+  company: libre-ops
+
+  license: GPLv3
+
+  min_ansible_version: 1.2
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+    - name: Debian
+      versions:
+        - sid
+        - buster
+
+  galaxy_tags:
+    - ssl
+    - tls
+    - ca
+    - keys
+    - generate
+    - certificates
+    - security
+    - encryption
+
+dependencies: []

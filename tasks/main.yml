@@ -1,0 +1,35 @@
+---
+
+- name: ensure keys path exists
+  file:
+    path: "{{ keys_path }}"
+    state: directory
+
+- name: generate CA keys
+  command: >
+    openssl req -new -x509 -subj "{{ ca_subject | join }}" -days {{ cert_valid_days }}
+    -keyout {{ keys_path }}/CA.key -out {{ keys_path }}/CA.crt
+    -passin pass:{{ cert_pass }} -passout pass:{{ cert_pass }}
+  args:
+    creates: "{{ keys_path }}/CA.key"
+
+- name: generate CSR keys
+  command: >
+    openssl req -nodes -newkey rsa:2048 -subj "{{ key_item.subject | join }}"
+    -keyout {{ keys_path }}/{{ key_item.filename }}.key -out {{ keys_path }}/{{ key_item.filename }}.csr
+  loop: "{{ create_keys }}"
+  loop_control:
+    loop_var: key_item
+
+- name: sign the CSRs
+  command: >
+    openssl x509 -req -CA {{ keys_path }}/CA.crt -CAkey {{ keys_path }}/CA.key -days {{ cert_valid_days }}
+    -in {{ keys_path }}/{{ key_item.filename }}.csr -out {{ keys_path }}/{{ key_item.filename }}-signed.crt
+    -CAcreateserial -passin pass:{{ cert_pass }}
+  loop: "{{ create_keys }}"
+  loop_control:
+    loop_var: key_item
+
+- name: create jks files
+  include_tasks: java_keystores.yml
+  when: create_java_keystores
