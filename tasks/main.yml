@@ -30,6 +30,14 @@
   loop_control:
     loop_var: key_item
 
+- name: delete CSRs after signing
+  file:
+    path: "{{ keys_path }}/{{ key_item.filename }}.csr"
+    state: absent
+  loop: "{{ create_keys }}"
+  loop_control:
+    loop_var: key_item
+
 - name: create jks files
   include_tasks: java_keystores.yml
   when: create_java_keystores
