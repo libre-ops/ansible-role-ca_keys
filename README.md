@@ -40,9 +40,9 @@ Checking the keys
 You can (and should) check the keys with various `openssl` commands. Here are some examples:
 
 ```
-openssl x509 -in generated_keys/CA.crt -text -noout
+openssl x509 -in generated_keys/ca.crt -text -noout
 openssl rsa -in generated_keys/<key-name>.key -check
-openssl x509 -in generated_keys/<key-name>-signed.crt -text -noout
+openssl x509 -in generated_keys/<key-name>.crt -text -noout
 ```
 
 Python limitation

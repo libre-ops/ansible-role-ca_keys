@@ -8,10 +8,10 @@
 - name: generate CA keys
   command: >
     openssl req -new -x509 -subj "{{ ca_subject | join }}" -days {{ cert_valid_days }}
-    -keyout {{ keys_path }}/CA.key -out {{ keys_path }}/CA.crt
+    -keyout {{ keys_path }}/ca.key -out {{ keys_path }}/ca.crt
     -passin pass:{{ cert_pass }} -passout pass:{{ cert_pass }}
   args:
-    creates: "{{ keys_path }}/CA.key"
+    creates: "{{ keys_path }}/ca.key"
 
 - name: generate CSR keys
   command: >
@@ -23,8 +23,8 @@
 
 - name: sign the CSRs
   command: >
-    openssl x509 -req -CA {{ keys_path }}/CA.crt -CAkey {{ keys_path }}/CA.key -days {{ cert_valid_days }}
-    -in {{ keys_path }}/{{ key_item.filename }}.csr -out {{ keys_path }}/{{ key_item.filename }}-signed.crt
+    openssl x509 -req -CA {{ keys_path }}/ca.crt -CAkey {{ keys_path }}/ca.key -days {{ cert_valid_days }}
+    -in {{ keys_path }}/{{ key_item.filename }}.csr -out {{ keys_path }}/{{ key_item.filename }}.crt
     -CAcreateserial -passin pass:{{ cert_pass }}
   loop: "{{ create_keys }}"
   loop_control:
